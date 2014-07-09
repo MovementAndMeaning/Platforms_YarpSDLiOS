@@ -1,0 +1,27 @@
+CMakeCache.txt
+CMakeFiles
+CTestTestfile.cmake
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+#VS/Windows related
+*.ilk
+*.lastbuildstate
+*.filters
+*.lib
+*.sdf
+*.suo
+*.obj
+*.tlog
+*.log
+*.pdb
+*.cache
+*.exe
+Debug
+Build
+
+#Xcode
+UserInterfaceState.xcuserstate
+Breakpoints_v2.xcbkptlist
+*.xcworkspacedata
