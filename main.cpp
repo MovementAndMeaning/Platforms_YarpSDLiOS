@@ -60,8 +60,9 @@ main(int argc, char *argv[])
     nc.setManualConfig("10.0.1.32", 10000);
     yarp::os::BufferedPort<yarp::os::Bottle> port;
 
-    
-    port.open("/YarpSDLiOS");
+    yarp::os::ConstString portName = "/YarpSDLiOS";
+    port.open(portName);
+
     
     
     SDL_Window *window;
@@ -99,6 +100,23 @@ main(int argc, char *argv[])
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
                 done = 1;
+            }
+            else if (event.type == SDL_APP_TERMINATING) {
+                done = 1; //this works; but need to kill app by holding home and then up swiping
+            }
+            else if (event.type == SDL_APP_WILLENTERBACKGROUND) {
+                //this doesn't quite work properly - only gets it after app comes back!
+                if (!port.isClosed()) {
+                    SDL_Log("app going into background. closing port...");
+                    port.close();
+                }
+            }
+            else if (event.type == SDL_APP_DIDENTERFOREGROUND) {
+                SDL_Log("app coming back into foreground");
+                if (port.isClosed()) {
+                    SDL_Log("opening...");
+                    port.open(portName);
+                }
             }
         }
         render(renderer);
